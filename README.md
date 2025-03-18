@@ -1,6 +1,6 @@
 # DETR - Detection Transformer (DETR) object detection in Python
 
-Detection Transformer (DETR) in Python - a simple minimal inference demonstration code for Detection Transformer (DETR) object detection
+Detection Transformer (DETR) in Python - minimal inference demonstration code for Detection Transformer (DETR) object detection
 
 ### Background
 
