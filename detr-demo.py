@@ -10,7 +10,7 @@
 #                    Durham University, UK
 # License : LGPL - http://www.gnu.org/licenses/lgpl.html
 
-# Acknowledgements: 
+# Acknowledgements:
 # -- based on code at https://learnopencv.com/detr-overview-and-inference/
 
 ##########################################################################
@@ -68,11 +68,10 @@ args = parser.parse_args()
 # calculate size of text label for image
 
 
-def calculate_label_size(box_width, box_height, frame_width, frame_height, min_scale=0.4, max_scale=1.2):
-    """
-    Calculate appropriate font scale based on bounding box size and frame dimensions.
-    """
-    box_size_ratio = (box_width * box_height) / (frame_width * frame_height)
+def calculate_label_size(box_width, box_height, frame_width,
+                         frame_height, min_scale=0.4, max_scale=1.2):
+    box_size_ratio = (box_width * box_height) / \
+                      (frame_width * frame_height)
     font_scale = min_scale + \
         (np.log(1 + box_size_ratio * 100) / 5) * (max_scale - min_scale)
     return np.clip(font_scale, min_scale, max_scale)
@@ -83,7 +82,8 @@ def calculate_label_size(box_width, box_height, frame_width, frame_height, min_s
 
 def generate_color_palette(num_classes):
     np.random.seed(42)  # Ensure the same colors are generated every time
-    return {label: tuple(np.random.randint(0, 255, 3).tolist()) for label in range(num_classes)}
+    return {label: tuple(np.random.randint(0, 255, 3).tolist())
+            for label in range(num_classes)}
 
 
 ##########################################################################
@@ -144,7 +144,7 @@ if (((args.video_file) and (cap.open(str(args.video_file))))
     trackbarName = 'reporting confidence > (x 0.01)'
     cv2.createTrackbar(trackbarName, window_name, 70, 100, on_trackbar)
 
-   # override default camera resolution
+    # override default camera resolution
 
     if (args.set_resolution is not None):
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, args.set_resolution[1])
@@ -240,10 +240,13 @@ if (((args.video_file) and (cap.open(str(args.video_file))))
             # Draw rectangle and label with the same color for the same class
             cv2.rectangle(frame, (int(xmin), int(ymin)), (int(
                 xmax), int(ymax)), color, max(2, int(font_scale * 3)))
-            cv2.rectangle(frame, (int(xmin), int(ymin) - text_height - baseline - 5),
+            cv2.rectangle(frame,
+                          (int(xmin), int(ymin) - text_height - baseline - 5),
                           (int(xmin) + text_width, int(ymin)), color, -1)
-            cv2.putText(frame, label_text, (int(xmin), int(ymin) - baseline - 2),
-                        cv2.FONT_HERSHEY_SIMPLEX, font_scale, (0, 0, 0), max(1, int(font_scale * 1.5)), cv2.LINE_AA)
+            cv2.putText(frame, label_text,
+                        (int(xmin), int(ymin) - baseline - 2),
+                        cv2.FONT_HERSHEY_SIMPLEX, font_scale, (0, 0, 0),
+                        max(1, int(font_scale * 1.5)), cv2.LINE_AA)
 
         # stop the timer and convert to ms. (to see how long processing takes)
 
@@ -254,8 +257,9 @@ if (((args.video_file) and (cap.open(str(args.video_file))))
 
         label = ('Inference time: %.2f ms' % stop_t) + \
             (' (Framerate: %.2f fps' % (1000 / stop_t)) + ')'
-        cv2.putText(frame, label, (0, 15),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
+        cv2.putText(frame, label, (0, 30),
+                    cv2.FONT_HERSHEY_SIMPLEX, font_scale, (0, 0, 255),
+                    max(1, int(font_scale * 1.5)), cv2.LINE_AA)
 
         # display image
 
