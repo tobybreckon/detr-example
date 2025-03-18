@@ -1,4 +1,6 @@
 transformers
-pytorch
+torch
+torchvision
+torchaudio
 opencv-python
 timm
